@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "Azamcloudspace"
+  },
+  {
+    "ParameterKey": "GitHubRepo",
+    "ParameterValue": "event-driven-notification-platform"
+  },
+  {
+    "ParameterKey": "CodestarConnectionArn",
+    "ParameterValue": "arn:aws:codeconnections:us-east-1:975050225555:connection/b764abe8-bf03-4f0f-bfd5-d00aaa612924"
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+

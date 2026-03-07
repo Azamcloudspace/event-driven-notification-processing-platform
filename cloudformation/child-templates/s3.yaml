@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+Resources:
+  InputBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${EnvironmentName}-input-bucket"
+      NotificationConfiguration:
+        EventBridgeConfiguration:
+          EventBridgeEnabled: true
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+          
+Outputs:
+  InputBucketName:
+    Value: !Ref InputBucket
+  
+  InputBucketArn:
+    Value: !GetAtt InputBucket.Arn
+
+
+
+
+

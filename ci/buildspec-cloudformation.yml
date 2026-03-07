@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  build:
+    commands:
+      - echo Packaging templates...
+      - aws s3 sync cloudformation/child-templates/ s3://iac-bucket-azamcloud/ 
+      - aws cloudformation deploy --template-file cloudformation/master/masterstack.yaml --stack-name event-driven-notification-stack --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://params/dev/dev-params.json
+
+artifacts:
+  files:
+    - '**/*'

@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+  GitHubOwner:
+    Type: String
+    
+  GitHubRepo:
+    Type: String
+    
+  CodestarConnectionArn:
+    Type: String
+  
+Resources:
+  S3Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/s3.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  SNSStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/sns.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  EventStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/event.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        InputBucket: !GetAtt S3Stack.Outputs.InputBucketName
+
+  LambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/lambdafunc.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        SNSTopic: !GetAtt SNSStack.Outputs.SNSTopicArn
+        NotificationQueue: !GetAtt EventStack.Outputs.NotificationQueueArn
+        
+  CodePipelineStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/pipeline.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        GitHubOwner: !Ref GitHubOwner
+        GitHubRepo: !Ref GitHubRepo
+        CodestarConnectionArn: !Ref CodestarConnectionArn
+        NotifyLambda: !GetAtt LambdaStack.Outputs.NotificationProcessorLambdaArn
+
+
+
+
+
+
+
+
+
+

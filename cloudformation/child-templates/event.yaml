@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  EnvironmentName:
+    Type: String
+  InputBucket:
+    Type: String
+
+Resources:
+
+  NotificationQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+  
+  FileQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref NotificationQueue
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sqs:SendMessage
+            Resource: !GetAtt NotificationQueue.Arn
+
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      EventPattern:
+        source:
+          - aws.s3
+        detail-type:
+          - Object Created
+        detail:
+          bucket:
+            name:
+              - !Ref InputBucket
+      Targets:
+        - Arn: !GetAtt NotificationQueue.Arn
+          Id: NotificationQueueTarget
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+Outputs: 
+  NotificationQueueArn:
+    Value: !GetAtt NotificationQueue.Arn
+  EventRuleArn:
+    Value: !GetAtt EventRule.Arn
+  

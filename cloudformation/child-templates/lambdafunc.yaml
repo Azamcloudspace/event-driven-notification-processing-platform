@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+  SNSTopic:
+    Type: String
+  NotificationQueue:
+    Type: String
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-LambdaProcessingRole"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonSNSFullAccess
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+        - arn:aws:iam::aws:policy/AmazonSQSFullAccess
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        
+  NotificationProcessorLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: lambda.app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: python3.13
+      Timeout: 60
+      Environment:
+        Variables:
+          SNS_TOPIC_ARN: !Ref SNSTopic
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref NotificationProcessorLambda
+      Action: lambda:InvokeFunction
+      Principal: sqs.amazonaws.com
+      SourceArn: !Ref NotificationQueue
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+Outputs:
+
+  NotificationProcessorLambdaArn:
+    Value: !GetAtt NotificationProcessorLambda.Arn
+
+
+
+
+

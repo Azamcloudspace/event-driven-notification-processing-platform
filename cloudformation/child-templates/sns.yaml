@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+
+  EnvironmentName:
+    Type: String
+    
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${EnvironmentName}-NotificationTopic"
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+      
+  EmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: azamiheme19@gmail.com
+      Protocol: email
+      TopicArn: !Ref SNSTopic
+
+Outputs:
+  SNSTopicName:
+    Value: !Ref SNSTopic
+  
+  SNSTopicArn:
+    Value: !GetAtt SNSTopic.Arn
+
+  SNSEmailSubscription:
+    Value: !Ref EmailSubscription
