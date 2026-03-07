@@ -8,7 +8,7 @@ Resources:
   InputBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${EnvironmentName}-input-bucket"
+      BucketName: !Sub "${EnvironmentName}-${AWS::AccountId}-input-bucket"
       NotificationConfiguration:
         EventBridgeConfiguration:
           EventBridgeEnabled: true
@@ -22,6 +22,7 @@ Outputs:
   
   InputBucketArn:
     Value: !GetAtt InputBucket.Arn
+
 
 
 
