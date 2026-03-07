@@ -42,7 +42,7 @@ Resources:
       TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/lambdafunc.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
-        SNSTopic: !GetAtt SNSStack.Outputs.SNSTopicArn
+        SNSTopic: !GetAtt SNSStack.Outputs.SNSTopicName
         NotificationQueue: !GetAtt EventStack.Outputs.NotificationQueueArn
         
   CodePipelineStack:
@@ -55,6 +55,7 @@ Resources:
         GitHubRepo: !Ref GitHubRepo
         CodestarConnectionArn: !Ref CodestarConnectionArn
         NotifyLambda: !GetAtt LambdaStack.Outputs.NotificationProcessorLambdaArn
+
 
 
 
