@@ -50,14 +50,11 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: sqs.amazonaws.com
       SourceArn: !Ref NotificationQueue
-      Tags:
-        - Key: Environment
-          Value: !Ref EnvironmentName
-
 Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
