@@ -79,7 +79,13 @@ Resources:
                   - codebuild:BatchGetBuilds
                   - codebuild:StopBuild
                 Resource: "*"
-
+                
+              - Effect: Allow
+                Action:
+                  - lambda:UpdateFunctionCode
+                  - lambda:GetFunction
+                Resource: !Sub "${NotifyLambda}/*"
+                
   NotifyBuild:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -170,6 +176,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
