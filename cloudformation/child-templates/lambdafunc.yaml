@@ -25,6 +25,7 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonSNSFullAccess
         - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
         - arn:aws:iam::aws:policy/AmazonSQSFullAccess
+        - arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -51,13 +52,13 @@ Resources:
     Properties:
       FunctionName: !Ref NotificationProcessorLambda
       Action: lambda:InvokeFunction
-      Principal: sqs.amazonaws.com
-      SourceArn: !Ref NotificationQueue
+      Principal: event.amazonaws.com
+      SourceArn: !Ref Event
    
   MyLambdaEventMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
-      EventSourceArn: !Ref NotificationQueue
+      EventSourceArn: !Ref Event
       FunctionName: !GetAtt NotificationProcessorLambda.Arn
       Enabled: true
       BatchSize: 10
@@ -65,6 +66,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
