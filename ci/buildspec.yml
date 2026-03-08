@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    ZIP_NAME: lambda.zip
-
 phases:
   install:
     runtime-versions:
@@ -11,9 +7,9 @@ phases:
 
   build:
     commands:
-      - echo Packaging Lambda code
-      - zip -r $ZIP_NAME app/
+      - echo Moving app.py to root
+      - cp app/app.py .
 
 artifacts:
   files:
-    - lambda.zip
+    - app.py
