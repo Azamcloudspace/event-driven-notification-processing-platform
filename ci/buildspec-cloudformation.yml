@@ -1,24 +1,10 @@
 version: 0.2
-
-env:
-  variables:
-    BUCKET_NAME: lambda-artifacts-bucket-12345
-    ZIP_NAME: lambda.zip
     
 phases:
   install:
     runtime-versions:
       python: 3.11
 
-  pre_build:
-    commands:
-      - aws s3api head-bucket --bucket $BUCKET_NAME || aws s3 mb s3://$BUCKET_NAME
-
-      - echo Packaging Lambda code
-      - zip -r $ZIP_NAME app/
-
-      - echo Uploading artifact to S3
-      - aws s3 cp $ZIP_NAME s3://$BUCKET_NAME/
   build:
     commands:
       - echo Packaging templates...
