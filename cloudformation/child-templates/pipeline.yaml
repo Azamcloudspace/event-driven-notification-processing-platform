@@ -39,6 +39,7 @@ Resources:
             Principal:
               Service: 
                 - codepipeline.amazonaws.com
+                - codebuild.amazonaws.com
             Action: sts:AssumeRole
       Policies:
         - PolicyName: CodePipelinePolicy
@@ -121,6 +122,21 @@ Resources:
                 Provider: Manual
                 Version: '1'
 
+        - Name: Build
+          Actions:
+            - Name: CodeBuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: "1"
+              InputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                ProjectName: !Ref NotifyBuild
+              OutputArtifacts:
+                - Name: BuildOutput
+
         - Name: Deploy
           Actions:
             - Name: NotifyLambda
@@ -130,7 +146,7 @@ Resources:
                 Provider: Lambda
                 Version: "1"
               InputArtifacts:
-                - Name: SourceOutput
+                - Name: BuildOutput
               Configuration:
                 FunctionName: !Ref NotifyLambda
 
@@ -141,6 +157,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
