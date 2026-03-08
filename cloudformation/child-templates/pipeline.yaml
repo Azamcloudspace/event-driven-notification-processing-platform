@@ -146,6 +146,9 @@ Resources:
                 - Name: SourceOutput
               Configuration:
                 ProjectName: !Ref NotifyBuild
+              OutputArtifacts:
+                - Name: BuildOutput
+
 
         - Name: Deploy
           Actions:
@@ -156,7 +159,7 @@ Resources:
                 Provider: Lambda
                 Version: "1"
               InputArtifacts:
-                - Name: SourceOutput
+                - Name: BuildOutput
               Configuration:
                 FunctionName: !Ref NotifyLambda
 
@@ -167,6 +170,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
