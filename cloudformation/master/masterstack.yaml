@@ -43,7 +43,7 @@ Resources:
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         SNSTopic: !GetAtt SNSStack.Outputs.SNSTopicName
-        NotificationQueue: !GetAtt EventStack.Outputs.NotificationQueueArn
+        Event: !GetAtt EventStack.Outputs.EventRuleArn
         
   CodePipelineStack:
     Type: AWS::CloudFormation::Stack
@@ -55,6 +55,7 @@ Resources:
         GitHubRepo: !Ref GitHubRepo
         CodestarConnectionArn: !Ref CodestarConnectionArn
         NotifyLambda: !GetAtt LambdaStack.Outputs.NotificationProcessorLambdaArn
+
 
 
 
