@@ -32,7 +32,7 @@ Resources:
   NotificationProcessorLambda:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: app.app.lambda_handler
+      Handler: app.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: python3.13
       Code:
@@ -57,6 +57,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
