@@ -84,7 +84,8 @@ Resources:
                 Action:
                   - lambda:UpdateFunctionCode
                   - lambda:GetFunction
-                Resource: !Sub "${NotifyLambda}/*"
+                  - lambda:GetFunctionConfiguration
+                Resource: !Ref NotifyLambda"
                 
   NotifyBuild:
     Type: AWS::CodeBuild::Project
@@ -176,6 +177,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
