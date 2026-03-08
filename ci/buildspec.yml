@@ -1,0 +1,19 @@
+version: 0.2
+
+env:
+  variables:
+    ZIP_NAME: lambda.zip
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  build:
+    commands:
+      - echo Packaging Lambda code
+      - zip -r $ZIP_NAME app/
+
+artifacts:
+  files:
+    - lambda.zip
