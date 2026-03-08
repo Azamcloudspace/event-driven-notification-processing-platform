@@ -37,9 +37,8 @@ Resources:
       Runtime: python3.13
       Code:
         ZipFile: |
-          def handler(event, context):
-              print("Placeholder Lambda executed")
-              return {"status": "ok"}
+          def lambda_handler(event, context):
+              pass
       Environment:
         Variables:
           SNS_TOPIC_ARN: !Ref SNSTopic
@@ -58,6 +57,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
