@@ -4,7 +4,8 @@ Parameters:
     Type: String
   InputBucket:
     Type: String
-
+  NotifyLambda:
+    Type: String
 Resources:
 
   NotificationQueue:
@@ -41,7 +42,7 @@ Resources:
             name:
               - !Ref InputBucket
       Targets:
-        - Arn: !Ref NotifyLamda
+        - Arn: !Ref NotifyLambda
           Id: LambdaTarget
       Tags:
         - Key: Environment
@@ -54,4 +55,5 @@ Outputs:
     Value: !GetAtt EventRule.Arn
 
   
+
 
