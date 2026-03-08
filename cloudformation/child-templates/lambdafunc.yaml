@@ -53,10 +53,19 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: sqs.amazonaws.com
       SourceArn: !Ref NotificationQueue
+   
+  MyLambdaEventMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn: !Ref NotificationQueue
+      FunctionName: !GetAtt NotificationProcessorLambda.Arn
+      Enabled: true
+      BatchSize: 10
 Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
