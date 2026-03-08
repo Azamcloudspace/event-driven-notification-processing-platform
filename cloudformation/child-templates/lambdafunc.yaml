@@ -41,7 +41,7 @@ Resources:
               pass
       Environment:
         Variables:
-          SNS_TOPIC_ARN: !Ref SNSTopic
+          TOPIC_ARN: !Ref SNSTopic
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -65,6 +65,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
