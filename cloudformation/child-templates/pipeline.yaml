@@ -57,7 +57,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - codestar-connections:UseConnection
-                Resource: !Ref CodeStarConnectionArn
+                Resource: !Ref CodestarConnectionArn
 
               - Effect: Allow
                 Action:
@@ -166,6 +166,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
