@@ -25,7 +25,7 @@ def lambda_handler(event, context):
     }
 
     # Large file notification
-    if size > 50000000:  # 50 MB
+    if size > 5000000:
         sns.publish(
             TopicArn=LARGE_FILE_TOPIC,
             Message=json.dumps(message),
@@ -52,4 +52,5 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps("Notifications processed")
     }
+
 
