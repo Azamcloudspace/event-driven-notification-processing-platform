@@ -1,6 +1,7 @@
 import json
 import boto3
 import os
+import urllib.parse
 
 sns = boto3.client("sns")
 
@@ -17,6 +18,9 @@ def lambda_handler(event, context):
     size = detail.get("object", {}).get("size", 0)
     event_time = event.get("time")
 
+    if key:
+        key = urllib.parse.unquote_plus(key)
+
     message = {
         "bucket": bucket,
         "file_name": key,
@@ -24,7 +28,6 @@ def lambda_handler(event, context):
         "event_time": event_time
     }
 
-    # Large file notification
     if size > 5000000:
         sns.publish(
             TopicArn=LARGE_FILE_TOPIC,
@@ -32,7 +35,6 @@ def lambda_handler(event, context):
             Subject="Large File Uploaded"
         )
 
-    # CSV file notification
     if key and key.endswith(".csv"):
         sns.publish(
             TopicArn=DATA_TEAM_TOPIC,
@@ -40,7 +42,6 @@ def lambda_handler(event, context):
             Subject="New CSV Dataset Uploaded"
         )
 
-    # Finance folder notification
     if key and key.startswith("finance/"):
         sns.publish(
             TopicArn=FINANCE_TEAM_TOPIC,
@@ -52,5 +53,6 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps("Notifications processed")
     }
+
 
 
