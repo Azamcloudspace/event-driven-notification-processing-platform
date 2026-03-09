@@ -3,7 +3,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   EnvironmentName:
     Type: String
-  SNSTopic:
+  LargeFileTopic:
+    Type: String
+  DataTeamTopic:
+    Type: String
+  FinanceTeamTopic:
     Type: String
 
 Resources:
@@ -40,7 +44,10 @@ Resources:
               pass
       Environment:
         Variables:
-          TOPIC_ARN: !Ref SNSTopic
+          - LARGE_FILE_TOPIC: !Ref LargeFileTopic
+          - DATA_TEAM_TOPIC: !Ref DataTeamTopic
+          - FINANCE_TEAM_TOPIC: !Ref FinanceTeamTopic
+          
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -57,6 +64,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
