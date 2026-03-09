@@ -28,7 +28,7 @@ def lambda_handler(event, context):
         "event_time": event_time
     }
 
-    if size > 5000000:
+    if size > 3000000:
         sns.publish(
             TopicArn=LARGE_FILE_TOPIC,
             Message=json.dumps(message),
@@ -53,6 +53,7 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps("Notifications processed")
     }
+
 
 
 
