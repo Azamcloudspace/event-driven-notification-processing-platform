@@ -5,24 +5,57 @@ Parameters:
     Type: String
     
 Resources:
-  SNSTopic:
+  LargeFileTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Sub "${EnvironmentName}-NotificationTopic"
+      TopicName: !Sub "${EnvironmentName}-LargeFileTopic"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
-      
-  EmailSubscription:
+          
+  DataTeamTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${EnvironmentName}-DataTeamTopic"
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName  
+          
+  FinanceTeamTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${EnvironmentName}-FinanceTeamTopic"
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+          
+  LargeFileSubscription:
     Type: AWS::SNS::Subscription
     Properties:
       Endpoint: azamiheme19@gmail.com
       Protocol: email
-      TopicArn: !Ref SNSTopic
-
+      TopicArn: !Ref LargeFileTopic
+      
+  DataTeamSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: azamiheme19@gmail.com
+      Protocol: email
+      TopicArn: !Ref DataTeamTopic
+      
+  FinanceTeamSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: azamiheme19@gmail.com
+      Protocol: email
+      TopicArn: !Ref FinanceTeamTopic
+      
 Outputs:
-  SNSTopicName:
-    Value: !Ref SNSTopic
-
-  SNSEmailSubscription:
-    Value: !Ref EmailSubscription
+  LargeFileTopicName:
+    Value: !Ref LargeFileTopic
+    
+  DataTeamTopicName:
+    Value: !Ref DataTeamTopic
+    
+  FinanceTeamTopicName:
+    Value: !Ref FinanceTeamTopic
