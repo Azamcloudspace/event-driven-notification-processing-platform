@@ -39,14 +39,14 @@ Resources:
   DataTeamSubscription:
     Type: AWS::SNS::Subscription
     Properties:
-      Endpoint: azamiheme19@gmail.com
+      Endpoint: joshdabby@yahoo.com
       Protocol: email
       TopicArn: !Ref DataTeamTopic
       
   FinanceTeamSubscription:
     Type: AWS::SNS::Subscription
     Properties:
-      Endpoint: azamiheme19@gmail.com
+      Endpoint: azamcloudspace@gmail.com
       Protocol: email
       TopicArn: !Ref FinanceTeamTopic
       
