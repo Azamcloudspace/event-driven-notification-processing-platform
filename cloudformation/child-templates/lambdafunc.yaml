@@ -44,9 +44,9 @@ Resources:
               pass
       Environment:
         Variables:
-          - LARGE_FILE_TOPIC: !Ref LargeFileTopic
-          - DATA_TEAM_TOPIC: !Ref DataTeamTopic
-          - FINANCE_TEAM_TOPIC: !Ref FinanceTeamTopic
+          LARGE_FILE_TOPIC: !Ref LargeFileTopic
+          DATA_TEAM_TOPIC: !Ref DataTeamTopic
+          FINANCE_TEAM_TOPIC: !Ref FinanceTeamTopic
           
       Tags:
         - Key: Environment
@@ -64,6 +64,7 @@ Outputs:
 
   NotificationProcessorLambdaArn:
     Value: !GetAtt NotificationProcessorLambda.Arn
+
 
 
 
